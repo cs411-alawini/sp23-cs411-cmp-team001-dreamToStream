@@ -8,8 +8,10 @@
 | Captain     |  atdoan2@illinois.edu  |
 | Member1     |   Rohan Sreenivasan    |
 | Member1     |  rohanjs3@illinois.edu |
-| Member2     |       Jebin John       |
-| Member2     |  jjohn261@illinois.edu |
+| Member2     |     Divya Manirajan    |
+| Member2     |   divya7@illinois.edu  |
+| Member3     |      Mohammad Zayyad   |
+| Member3     |   mzayy2@illinois.edu  |
 
 ## Project Information
 
