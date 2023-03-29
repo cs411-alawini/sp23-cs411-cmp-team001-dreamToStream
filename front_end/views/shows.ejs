@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Shows</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+      color: #333;
+    }
+    table {
+      margin: 50px auto;
+      border-collapse: collapse;
+      border: 2px solid #ccc;
+      background-color: #fff;
+      width: 80%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #666;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Shows</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Country</th>
+        <th>Release Year</th>
+        <th>TV Rating</th>
+        <th>Seasons</th>
+        <th>Genre</th>
+        <th>Platform</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (var i = 0; i < shows.length; i++) { %>
+        <tr>
+          <td><%= shows[i].name %></td>
+          <td><%= shows[i].country %></td>
+          <td><%= shows[i].releaseYear %></td>
+          <td><%= shows[i].tvRating %></td>
+          <td><%= shows[i].seasons %></td>
+          <td><%= shows[i].genre %></td>
+          <td><%= shows[i].platform %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</body>
+</html>

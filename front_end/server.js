@@ -71,6 +71,21 @@ console.log(sql);
   });
 });
 
+// create a new route to execute SELECT query
+app.get('/shows', function(req, res) {
+  var sql = 'SELECT * FROM Shows LIMIT 15';
+
+  connection.query(sql, function(err, results, fields) {
+    if (err) {
+      console.error('Error executing MySQL query: ' + err.stack);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    // render shows.ejs file with query results
+    res.render('shows', { shows: results });
+  });
+});
+
 
 
 app.listen(80, function () {
