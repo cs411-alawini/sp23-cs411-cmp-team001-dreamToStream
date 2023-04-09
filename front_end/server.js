@@ -94,6 +94,37 @@ app.listen(80, function () {
 });
 
 
+app.get('/rating', function(req, res) {
+  res.render('rating', { title: 'Add a Rating' });
+});
+
+/* POST request to create user, redirect to success page if successful, show error message if unsuccessful */
+app.post('/rating', function(req, res) {
+  var media = req.body.media;
+  var rating = req.body.rating;
+  var type = req.body.type;
+
+  if (type = 'Movie'){
+    var sql2 = `UPDATE MovieRating SET value = ${rating} WHERE name = '${media}'`;
+
+
+  }
+  else {
+    var sql2 = `UPDATE ShowRating SET value = ${rating} WHERE name = '${media}'`;
+
+  }
+
+    connection.query(sql2, function(err, result) {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      console.log('Rating Updated');
+      res.redirect('/success');
+    });
+  });
+
+
 // var express = require('express');
 // var bodyParser = require('body-parser');
 // var mysql = require('mysql2');
