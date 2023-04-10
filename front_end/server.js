@@ -159,6 +159,62 @@ app.post('/rating', function(req, res) {
       res.redirect('/success');
     });
   });
+ 
+  //GET request for shows
+  app.get('/shows', function(req, res) {
+    res.render('shows', { title: 'Shows' });
+  });
+  
+  //GET request for search
+  app.get('/search', (req, res) => {
+      var title = req.query.title
+      var genre = req.query.genre;
+    
+      let sql = `SELECT * FROM Shows WHERE  (name like '${title}%' OR name like '${title}%') AND genre LIKE '%${genre}%' LIMIT 15`
+      // let sql = `SELECT * FROM Shows LIMIT 15`
+    
+        connection.query(sql, (err, result) => {
+          if (err) {
+            res.send(err);
+            return;
+          }
+          // res.render('shows', { title: 'Shows' });
+          // res.re(result)
+          res.send(result)
+        });
+      });
+
+//Generated Data for Advanced Queries -- REPLACE with sql outputs
+var dataQuery1 = [
+  ["Shows",'2021','23'],
+  ["Movies ",'2021','432'],
+  ["Shows",'2020','98'],
+  ['Movies','2020','435']
+  ]; 
+
+var dataQuery2 = [
+  ["Divya",'Manirajan','23','11-02-1999'],
+  ["John ",'Smith','43','1-04-1949'],
+  ["boe",'jonnson','98','3-0-3333'],
+  ['hadf','adsf','435','2-2-2220']
+  ]; 
+
+
+//GET request to set up advanced queries
+  app.get('/AdvQueriesSubmit', function(req,res){
+    res.render('AdvQueriesSubmit');
+  });
+
+//POST request for Advanced Query 1
+  app.post('/Query1', function(req, res) {
+    res.render('AdvQuery1Table', {sampleData:dataQuery1})}
+  );  
+
+  //POST request for Advanced Query 2
+app.post('/Query2', function(req, res) {
+  res.render('AdvQuery2Table', {sampleData:dataQuery2})}
+  ); 
+
 
 
 // var express = require('express');
