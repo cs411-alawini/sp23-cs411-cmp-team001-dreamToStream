@@ -83,16 +83,39 @@ app.post('/create-user', function(req, res) {
   });
 });
 
-
-/* GET success page, respond by rendering success.ejs */
-app.get('/success', function(req, res) {
-  res.render('success', { title: 'Success' });
+// Create a new GET route for the sign-in page
+app.get('/sign-in', function(req, res) {
+  res.render('sign-in', { title: 'Sign In' });
 });
+
+// Handle sign-in form submissions
+app.post('/sign-in', function(req, res) {
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+
+  connection.query(`SELECT * FROM Users WHERE firstName='${firstName}' AND lastName='${lastName}'`, function(err, results, fields) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+
+    if (results.length > 0) {
+      res.render('signinsuccess', { users: results });
+    } else {
+      res.render('sign-in', { title: 'Sign In', error: 'Invalid credentials' });
+    }
+  });
+});
+
 
 app.listen(80, function () {
     console.log('Node app is running on port 80');
 });
 
+/* GET success page, respond by rendering success.ejs */
+app.get('/success', function(req, res) {
+  res.render('success', { title: 'Success' });
+});
 
 app.get('/rating', function(req, res) {
   res.render('rating', { title: 'Add a Rating' });
