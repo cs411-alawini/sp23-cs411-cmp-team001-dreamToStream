@@ -107,6 +107,19 @@ app.post('/sign-in', function(req, res) {
   });
 });
 
+// Handle sign in to homepage for users based on their given id
+app.get('/home/:id', function(req, res) {
+  var userId = req.params.id;
+  // Fetch user data based on the userId from the database
+  connection.query('SELECT * FROM Users WHERE id = ?', [userId], function(err, results) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+    // Render the home page with the user data
+    res.render('home', { user: results[0] });
+  });
+});
 
 app.listen(80, function () {
     console.log('Node app is running on port 80');
