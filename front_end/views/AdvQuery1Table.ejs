@@ -1,0 +1,37 @@
+<style>
+    table,th,td {
+        border: 1px solid black;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>yr</th>
+        <th>Count(*)</th>
+    </tr>
+   
+    
+    <% 
+    if(sampleData.length > 0)
+    {
+        sampleData.forEach(function(dataQuery1){
+    %>
+
+    <tr>
+        <% for(var i = 0; i<dataQuery1.length; i++){%>
+        <td><%= dataQuery1[i] %></td>
+        <%}%>
+     
+    </tr>
+    
+    <%
+        });
+
+    }
+    %>
+
+</table>
+
+
+<a href="http://localhost:8000/">Back</a>

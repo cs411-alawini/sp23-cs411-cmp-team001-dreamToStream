@@ -1,0 +1,34 @@
+<style>
+    table,th,td {
+        border: 1px solid black;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Movie Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Rating</th>
+    </tr>
+   
+    <% if(sampleData.length > 0)
+    {
+        sampleData.forEach(function(dataQuery2){
+    %>
+
+    <tr>
+        <% for(var i = 0; i<dataQuery2.length; i++){%>
+            <td><%= dataQuery2[i] %></td>
+            <%}%>
+        
+    </tr>
+    
+    <%
+        });
+    }
+    %>
+
+</table>
+
+<a href="http://localhost:8000/">Back</a>
