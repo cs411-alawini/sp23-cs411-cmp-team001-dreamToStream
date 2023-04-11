@@ -1,0 +1,38 @@
+<style>
+    table,th,td {
+        border: 1px solid black;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Movie Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Rating</th>
+    </tr>
+   
+    <% 
+        if(sampleData.length > 0)
+    {
+        sampleData.forEach(function(dataQuery2){
+
+    %>
+
+    <tr>
+            <td><%= dataQuery2.name %></td>
+            <td><%= dataQuery2.firstName %></td>
+            <td><%= dataQuery2.lastName %></td>
+            <td><%= dataQuery2.value %></td>
+
+
+        
+    </tr>
+    
+    <%
+        });
+    }
+    %>
+
+</table>
+
