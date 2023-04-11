@@ -215,9 +215,17 @@ app.post('/Query1', function(req, res) {
 );  
 
 //POST request for Advanced Query 2
-app.post('/Query2', function(req, res) {
-  res.render('AdvQuery2Table', {sampleData:dataQuery2})}
-); 
+app.get('/Query2', function(req, res) {
+
+  var platform = req.query.Platform;
+
+  var sql = "SELECT name, firstName, lastName, value FROM Users NATURAL JOIN MovieRating WHERE country IN (SELECT country FROM Platform WHERE platform = '"+platform+"')ORDER BY name LIMIT 15;";
+
+  connection.query(sql, function(err,dataQuery2){
+    if (err) throw err;
+    res.render('AdvQuery2Table', {sampleData:dataQuery2});
+  });
+}); 
 
 //GET request for Top movies
 app.get('/topMovies', function(req, res){
