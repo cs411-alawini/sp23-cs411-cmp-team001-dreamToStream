@@ -218,3 +218,31 @@ app.post('/Query1', function(req, res) {
 app.post('/Query2', function(req, res) {
   res.render('AdvQuery2Table', {sampleData:dataQuery2})}
 ); 
+
+//GET request for Top movies
+app.get('/topMovies', function(req, res){
+    var genre = req.query.genre;
+    var sYear = req.query.sYear;
+    var eYear = req.query.eYear;
+
+    let sql = `SELECT name, m.releaseYear, value, genre 
+    FROM Movies as m Natural JOIN MovieRating as mr JOIN (
+      SELECT MAX(value) as mxs, releaseYear
+      FROM Movies Natural JOIN MovieRating
+      GROUP by releaseYear
+    ) as maxs ON maxs.releaseYear=m.releaseYear
+    WHERE genre LIKE '%${genre}%' and mr.value=maxs.mxs and m.releaseYear between ${sYear} and ${eYear}
+    ORDER BY name
+    LIMIT 15`
+
+    connection.query(sql, (err, result) => {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      // res.render('shows', { title: 'Shows' });
+      // res.re(result)
+      res.send(result)
+    });
+
+  });
