@@ -103,6 +103,10 @@ app.get('/shows', function(req, res) {
   res.render('shows', { title: 'Shows' });
 });
 
+app.get('/AdvQuery1Table', function(req, res) {
+  res.render('AdvQuery1Table', { title: 'Query1' });
+});
+
 app.get('/search', (req, res) => {
     var title = req.query.title
     var genre = req.query.genre;
@@ -145,6 +149,41 @@ app.post('/rating', function(req, res) {
       console.log('Rating Updated');
       res.redirect('/success');
     });
+  });
+
+
+
+app.get('/topMovies', function(req, res){
+    var genre = req.query.genre;
+    var sYear = req.query.sYear;
+    var eYear = req.query.eYear;
+
+    let sql = `SELECT name, releaseYear, value 
+    FROM Movies as m Natural JOIN MovieRating as mr JOIN (
+      SELECT MAX(value) as mxs, releaseYear
+      FROM Movies Natural JOIN Movie Rating
+      GROUP by releaseYear
+    ) as maxs ON maxs.releaseYear=m.releaseYear
+    WHERE genre LIKE '%${genre}%' and mr.value=maxs.mxs
+    ORDER BY name
+    LIMIT 15`
+
+    var sql1 = `SELECT name, releaseYear, value 
+    FROM Movies as m Natural JOIN MovieRating
+    WHERE genre LIKE '%${genre}%'
+    ORDER BY name
+    LIMIT 15`
+
+    connection.query(sql1, (err, result) => {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      // res.render('shows', { title: 'Shows' });
+      // res.re(result)
+      res.send(result)
+    });
+
   });
 
 
