@@ -12,15 +12,20 @@
         <th>Rating</th>
     </tr>
    
-    <% if(sampleData.length > 0)
+    <% 
+        if(sampleData.length > 0)
     {
         sampleData.forEach(function(dataQuery2){
+
     %>
 
     <tr>
-        <% for(var i = 0; i<dataQuery2.length; i++){%>
-            <td><%= dataQuery2[i] %></td>
-            <%}%>
+            <td><%= dataQuery2.name %></td>
+            <td><%= dataQuery2.firstName %></td>
+            <td><%= dataQuery2.lastName %></td>
+            <td><%= dataQuery2.value %></td>
+
+
         
     </tr>
     
@@ -31,4 +36,3 @@
 
 </table>
 
-<a href="http://localhost:8000/">Back</a>
