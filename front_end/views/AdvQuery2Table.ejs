@@ -1,6 +1,30 @@
 <style>
-    table,th,td {
-        border: 1px solid black;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif; 
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tr:hover {
+        background-color: #e2e6ea;
     }
 </style>
 
@@ -20,13 +44,10 @@
     %>
 
     <tr>
-            <td><%= dataQuery2.name %></td>
-            <td><%= dataQuery2.firstName %></td>
-            <td><%= dataQuery2.lastName %></td>
-            <td><%= dataQuery2.value %></td>
-
-
-        
+        <td><%= dataQuery2.name %></td>
+        <td><%= dataQuery2.firstName %></td>
+        <td><%= dataQuery2.lastName %></td>
+        <td><%= dataQuery2.value %></td>
     </tr>
     
     <%
