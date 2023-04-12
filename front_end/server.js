@@ -123,13 +123,10 @@ app.post('/update-rating', function(req, res) {
   if (type = 'Movie'){
     var type = 'MovieRating';
     var sql2 = `UPDATE MovieRating SET value = ${rating} WHERE id = ${userId} AND name = '${media}'`;
-
-
   }
   else {
     var type = 'ShowRating';
     var sql2 = `UPDATE ShowRating SET value = ${rating} WHERE id = ${userId} AND  name = '${media}'`;
-
   }
 
   connection.query(sql2, function(err, result) {
@@ -162,7 +159,6 @@ app.get('/rating-success', function(req, res) {
     res.render('rating-success', { ratings: results });
   });
 });
-
 
 //GET request for shows
 app.get('/shows', function(req, res) {
