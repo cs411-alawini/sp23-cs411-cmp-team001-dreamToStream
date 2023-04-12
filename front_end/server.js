@@ -11,7 +11,6 @@ var connection = mysql.createConnection({
 });
 connection.connect;
 
-
 var app = express();
 
 // set up ejs view engine 
@@ -115,72 +114,41 @@ app.get('/update-rating', function (req, res) {
 
 /* POST request to create user, redirect to success page if successful, show error message if unsuccessful */
 app.post('/update-rating', function (req, res) {
+  var userId = req.query.id; // Retrieve user ID from URL parameter
   var media = req.body.media;
   var rating = req.body.rating;
   var type = req.body.type;
   var change = req.body.change;
+
   if (change == 'Update') {
-    if (type = 'Movie') {
-
-      var sql2 = `UPDATE MovieRating SET value = ${rating} WHERE name = '${media}'`;
-
-
+    if (type == 'Movie') {
+      var type = 'MovieRating';
+      var sql2 = `UPDATE MovieRating SET value = ${rating} WHERE id = ${userId} AND name = '${media}'`;
     }
     else {
-      var sql2 = `UPDATE ShowRating SET value = ${rating} WHERE name = '${media}'`;
-
+      var type = 'ShowRating';
+      var sql2 = `UPDATE ShowRating SET value = ${rating} WHERE id = ${userId} AND  name = '${media}'`;
     }
   }
   else {
-
-    if (type = 'Movie') {
-
-      var sql2 = `DELETE FROM MovieRating WHERE name = '${media}'`;
-
-
+    if (type == 'Movie') {
+      var type = 'MovieRating';
+      var sql2 = `DELETE FROM MovieRating WHERE id = ${userId} AND name = '${media}'`;
     }
     else {
-      var sql2 = `DELETE FROM ShowRating WHERE name = '${media}'`;
-
+      var type = 'ShowRating';
+      var sql2 = `DELETE FROM ShowRating WHERE id = ${userId} AND name = '${media}'`;
     }
-
   }
 
-  connection.connect((err) => {
-    if (err) throw err;
-    console.log('Connected to the database');
+  connection.query(sql2, function(err, result) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+    console.log('Rating Updated');
+    res.redirect(`/rating-success?type=${type}&id=${userId}`);
   });
-
-  // Execute a SELECT query
-  var sql = `SELECT * FROM MovieRating WHERE name = '${media}'`;
-  connection.query(sql, (err, result, fields) => {
-    if (err) throw err;
-    console.log("Before query")
-
-    console.log(result)
-
-
-  });
-
-  connection.query(sql2, (err, result) => {
-    if (err) throw err;
-
-    console.log("Update made")
-
-  });
-
-
-  var sql = `SELECT * FROM MovieRating WHERE name = '${media}'`;
-  connection.query(sql, (err, result, fields) => {
-    if (err) throw err;
-    console.log("After query")
-
-    console.log(result);
-
-    res.redirect('/rating-success');
-
-  });
-
 });
 
 
@@ -215,15 +183,12 @@ app.get('/search', (req, res) => {
   var genre = req.query.genre;
 
   let sql = `SELECT * FROM Shows WHERE  (name like '${title}%' OR name like '${title}%') AND genre LIKE '%${genre}%' LIMIT 15`
-  // let sql = `SELECT * FROM Shows LIMIT 15`
 
   connection.query(sql, (err, result) => {
     if (err) {
       res.send(err);
       return;
     }
-    // res.render('shows', { title: 'Shows' });
-    // res.re(result)
     res.send(result)
   });
 });
@@ -260,7 +225,7 @@ app.get('/Query2', function (req, res) {
 
   var platform = req.query.Platform;
 
-  var sql = "SELECT name, firstName, lastName, value FROM Users NATURAL JOIN MovieRating WHERE country IN (SELECT country FROM Platform WHERE platform = '" + platform + "')ORDER BY name LIMIT 15;";
+  var sql = "SELECT name, firstName, lastName, value FROM Users NATURAL JOIN MovieRating WHERE country IN (SELECT country FROM Platform WHERE platform = '" + platform + "')ORDER BY name;";
 
   connection.query(sql, function (err, dataQuery2) {
     if (err) throw err;
@@ -281,17 +246,13 @@ app.get('/topMovies', function (req, res) {
       GROUP by releaseYear
     ) as maxs ON maxs.releaseYear=m.releaseYear
     WHERE genre LIKE '%${genre}%' and mr.value=maxs.mxs and m.releaseYear between ${sYear} and ${eYear}
-    ORDER BY name
-    LIMIT 15`
+    ORDER BY name`
 
   connection.query(sql, (err, result) => {
     if (err) {
       res.send(err);
       return;
     }
-    // res.render('shows', { title: 'Shows' });
-    // res.re(result)
     res.send(result)
   });
-
 });
