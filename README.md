@@ -10,6 +10,7 @@ Eash submission should be in it's own [release](https://docs.github.com/en/repos
 - docs: This folder contains all the Stage submissions for the project as defined in the Project requirements
 - front_end: This folder contains the Node.js files used to render the application front end within GCP
 - data_migration: This folder contains all the csv files gathered from the course for Amazon Prime Titles, Disney+ Titles, Hulu Titles, and Netflix titles. Also, are the Python files used to migrate all the data into the team's GCP MySQL Instance.
+- sql: This folder contains the SQL statments used for the Triggers used on the current database in GCP.
 
 ## Code Contribution
 |        Member          |           Role         |
