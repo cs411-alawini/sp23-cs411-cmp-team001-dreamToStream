@@ -106,30 +106,41 @@ app.get('/success', function (req, res) {
   res.render('success', { title: 'Success' });
 });
 
-app.get('/update-rating', function (req, res) {
+app.get('/put-rating', function (req, res) {
   var userId = req.query.id;; // Get the user ID from the URL parameter
-  res.render('update-rating', { title: 'Update a Rating', userId: userId });
+  res.render('put-rating', { title: 'Update a Rating', userId: userId });
 });
 
 /* POST request to create user, redirect to success page if successful, show error message if unsuccessful */
-app.post('/update-rating', function (req, res) {
+app.post('/put-rating', function (req, res) {
   var userId = req.query.id; // Retrieve user ID from URL parameter
   var media = req.body.media;
   var rating = req.body.rating;
   var type = req.body.type;
   var change = req.body.change;
+  var comments = req.body.comments;
+  var currentDate = new Date().toISOString().substring(0, 10);
 
-  if (change == 'Update') {
+  if (change == 'Add') {
     if (type == 'Movie') {
       var type = 'MovieRating';
-      var sql2 = `UPDATE MovieRating SET value = ${rating} WHERE id = ${userId} AND name = '${media}'`;
+      var sql2 = `INSERT INTO MovieRating (id, name, date, value, comments) VALUES (${userId}, '${media}', '${currentDate}', ${rating}, '${comments}')`;
     }
     else {
       var type = 'ShowRating';
-      var sql2 = `UPDATE ShowRating SET value = ${rating} WHERE id = ${userId} AND  name = '${media}'`;
+      var sql2 = `INSERT INTO ShowRating (id, name, date, value, comments) VALUES (${userId}, '${media}', '${currentDate}', ${rating}, '${comments}')`;
     }
   }
-  else {
+  else if (change == 'Update') {
+    if (type == 'Movie') {
+      var type = 'MovieRating';
+      var sql2 = `UPDATE MovieRating SET value = ${rating}, comments = '${comments}' WHERE id = ${userId} AND name = '${media}'`;
+    }
+    else {
+      var type = 'ShowRating';
+      var sql2 = `UPDATE ShowRating SET value = ${rating}, comments = '${comments}' WHERE id = ${userId} AND  name = '${media}'`;
+    }
+  } else if (change == 'Delete') {
     if (type == 'Movie') {
       var type = 'MovieRating';
       var sql2 = `DELETE FROM MovieRating WHERE id = ${userId} AND name = '${media}'`;
@@ -150,7 +161,6 @@ app.post('/update-rating', function (req, res) {
   });
 });
 
-
 // GET request for rating success page
 app.get('/rating-success', function (req, res) {
   // Determine the appropriate table to query based on the 'type' parameter
@@ -167,7 +177,7 @@ app.get('/rating-success', function (req, res) {
     }
 
     // Render the rating success page with the retrieved data
-    res.render('rating-success', { ratings: results });
+    res.render('rating-success', { ratings: results, req: req});
   });
 });
 

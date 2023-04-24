@@ -15,10 +15,16 @@
                 <h2>Welcome, <%= user.firstName %>!</h2>
                 <h4>Please select an option:</h4>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <a href="/update-rating?id=<%= user.id %>" class="btn btn-success btn-lg btn-block">Update/Delete a Rating</a>
+                    <div class="col-sm-6 mt-4">
+                        <a href="/rating-success?type=ShowRating&id=<%= user.id %>" class="btn btn-success btn-lg btn-block">My Show Ratings</a>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mt-4">
+                        <a href="/rating-success?type=MovieRating&id=<%= user.id %>" class="btn btn-success btn-lg btn-block">My Movie Ratings</a>
+                    </div>
+                    <div class="col-sm-6 mt-4">
+                        <a href="/put-rating?id=<%= user.id %>" class="btn btn-success btn-lg btn-block">Add/Update/Delete a Rating</a>
+                    </div>
+                    <div class="col-sm-6 mt-4">
                         <a href="/AdvQueriesSubmit" class="btn btn-success btn-lg btn-block">Advanced Search Queries</a>
                     </div>
                 </div>
