@@ -265,3 +265,47 @@ app.get('/topMovies', function (req, res) {
     res.send(result)
   });
 });
+
+
+// GET route for the user-mesh page
+app.get('/user-mesh', (req, res) => {
+  res.render('user-mesh');
+});
+
+// GET to runs a mesh for two queries to get movie and show ratings
+app.get('/user-mesh-query', (req, res) => {
+  const userId1 = req.query.userId1;
+  const userId2 = req.query.userId2;
+
+  const movieRatingSQL = `SELECT MR.name, MR.value as rating1, MR2.value as rating2 
+              FROM MovieRating MR 
+              INNER JOIN MovieRating MR2 ON MR.name = MR2.name 
+              WHERE MR.id = ${userId1} AND MR2.id = ${userId2}`;
+
+  const showRatingSQL = `SELECT SR.name, SR.value as rating1, SR2.value as rating2 
+              FROM ShowRating SR 
+              INNER JOIN ShowRating SR2 ON SR.name = SR2.name 
+              WHERE SR.id = ${userId1} AND SR2.id = ${userId2}`;
+
+  connection.query(movieRatingSQL, (err, results1) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal server error');
+    } else {
+      connection.query(showRatingSQL, (err, results2) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Internal server error');
+        } else {
+          res.render('user-mesh-success', { 
+            userId1: userId1,
+            userId2: userId2,
+            movieRatings: results1,
+            showRatings: results2
+          });
+        }
+      });
+    }
+  });
+});
+
