@@ -1,6 +1,3 @@
--- Delimiter used for GCP MySQL
-DELIMITER //
-
 /*
   get_rating Procedure that gets ratings given two userIds (INT) as parameters
 
@@ -15,6 +12,10 @@ DELIMITER //
   This would allow for users to have a better understanding of "Mesh" where they can see how compatible they are
   in terms of their Show/Movie likings.
 */
+
+-- Delimiter used for GCP MySQL
+DELIMITER //
+
 CREATE PROCEDURE get_ratings(IN userId1 INT, IN userId2 INT)
 BEGIN
   DECLARE movie_name VARCHAR(255);

@@ -9,6 +9,9 @@
     This is done before any UPDATES.
 */
 
+-- Delimiter used for GCP MySQL
+DELIMITER //
+
 CREATE TRIGGER boundMovieRating BEFORE UPDATE ON MovieRating FOR EACH ROW 
 BEGIN          
     IF NEW.value > 10 THEN           
@@ -26,3 +29,6 @@ CREATE TRIGGER boundShowRating BEFORE UPDATE ON ShowRating FOR EACH ROW BEGIN
         SET NEW.value = 1;          
     END IF;         
 END;
+
+-- Delimiter used for GCP MySQL
+DELIMITER ;
