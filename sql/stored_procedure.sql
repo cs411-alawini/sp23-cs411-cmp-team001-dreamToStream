@@ -24,6 +24,7 @@ BEGIN
   DECLARE show_name VARCHAR(255);
   DECLARE show_rating1 INT;
   DECLARE show_rating2 INT;
+  DECLARE exit_loop BOOLEAN DEFAULT FALSE;
   
   -- USING JOIN (ADVANCED QUERY 1) to get Movies that both users have reviewed from MovieRating
   DECLARE movie_cursor CURSOR FOR  
@@ -31,7 +32,7 @@ BEGIN
     FROM MovieRating MR 
     INNER JOIN MovieRating MR2 ON MR.name = MR2.name 
     WHERE MR.id = userId1 AND MR2.id = userId2;
-  
+
   -- USING SUBQUERY (ADVANCED QUERY 2) to get Shows that both users have reviewed from ShowRating
   DECLARE show_cursor CURSOR FOR 
     SELECT SR.name, 
@@ -47,18 +48,20 @@ BEGIN
     WHERE SR.id IN (userId1, userId2)
     GROUP BY SR.name -- Group by ShowRating.Name (ADVANCED QUERY)
     HAVING COUNT(DISTINCT id) = 2; 
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = TRUE;
   
   SET movie_rating1 = 0;
   SET movie_rating2 = 0;
   SET show_rating1 = 0;
   SET show_rating2 = 0;
   
+  -- LOOP THROUGH MOVIE RATINGS --
   OPEN movie_cursor; -- USING CURSOR
-  
   movie_loop: LOOP -- USING LOOPING STRUCTURE
     FETCH movie_cursor INTO movie_name, movie_rating1, movie_rating2;
-    
-    IF movie_name IS NULL THEN
+
+    IF exit_loop THEN
       LEAVE movie_loop;
     END IF;
     
@@ -75,20 +78,15 @@ BEGIN
   
   CLOSE movie_cursor;
   
+  -- LOOP THROUGH SHOW RATINGS --
+  SET exit_loop = FALSE;
   OPEN show_cursor; -- USING CURSOR
-  
   show_loop: LOOP -- USING LOOPING STRUCTURE
     FETCH show_cursor INTO show_name, show_rating1, show_rating2;
     
-    IF show_name IS NULL THEN
+    IF exit_loop THEN
       LEAVE show_loop;
     END IF;
-    
-    SET show_rating1 = COALESCE(show_rating1, 0);
-    SET show_rating2 = COALESCE(show_rating2, 0);
-    
-    SET show_rating1 = IF(show_rating1 > 10, 10, IF(show_rating1 < 1, 1, show_rating1));
-    SET show_rating2 = IF(show_rating2 > 10, 10, IF(show_rating2 < 1, 1, show_rating2));
     
     -- Processing Show Ratings USING CONTROL STRUCTURE (IF-Statement)
     
