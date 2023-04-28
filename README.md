@@ -1,10 +1,7 @@
 # sp23-cs411-cmp-team001-dreamToStream
 
-## Permission
-You should make sure you allow TAs to access your repository. You can add TA(s) as a collaborator to your repository.
-
-## Preparing for your release
-Eash submission should be in it's own [release](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases). Release are specific freezes to your repository. You should submit your commit hash on canvas or google sheet. When tagging your stage, please use the tag `stage.x` where x is the number to represent the stage.
+## About DreamToStream
+Dream to Stream is an application that combines the Shows and Movie tables from Netflix, Hulu, Disney+, and Prime Video. With the provided data, users now have a centralized area to see what’s available to them. Using our application dreamToStream, users can create, retrieve, update, and delete their Show and Movie ratings, see what Movie/Show are available to them in their country, and do a mesh with a fellow user to see comparisons between Movies and Shows both have rated.
 
 ## Folder Structure
 - docs: This folder contains all the Stage submissions for the project as defined in the Project requirements
@@ -20,3 +17,5 @@ Eash submission should be in it's own [release](https://docs.github.com/en/repos
 |      Mohammad Zayyad   |      Developer: GCP/Backend/Frontend   |
 |   Rohan Sreenivasan    |      Developer: GCP/Backend/Frontend   |
 
+## Link to Final Demo Video
+https://mediaspace.illinois.edu/media/t/1_9kopurpv
